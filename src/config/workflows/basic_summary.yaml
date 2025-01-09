@@ -1,0 +1,7 @@
+name: Basic Summary Workflow
+description: A simple workflow that summarizes text
+tools:
+  - name: Summarizer
+    params:
+      max_length: 200
+      chain_type: "stuff" 

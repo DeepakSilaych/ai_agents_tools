@@ -1,0 +1,5 @@
+Artificial intelligence (AI) is intelligence demonstrated by machines, as opposed to natural intelligence displayed by animals including humans. AI research has been defined as the field of study of intelligent agents, which refers to any system that perceives its environment and takes actions that maximize its chance of achieving its goals.
+
+The field was founded on the claim that human intelligence can be so precisely described that a machine can be made to simulate it. This raises philosophical arguments about the nature of the mind and the ethics of creating artificial beings endowed with human-like intelligence.
+
+AI applications include advanced web search engines, recommendation systems, understanding human speech, self-driving cars, automated decision-making and competing at the highest level in strategic game systems. 
