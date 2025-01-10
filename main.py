@@ -1,84 +1,42 @@
-import os
-from dotenv import load_dotenv
-from src.workflows.workflow_executor import WorkflowExecutor
-import argparse
-
-def setup_environment():
-    """Load environment variables and check for required API keys."""
-    load_dotenv()
-    
-    required_keys = {
-        'OPENAI_API_KEY': 'OpenAI',
-        'GOOGLE_API_KEY': 'Gemini',
-        'REPLICATE_API_TOKEN': 'Llama/Replicate'
-    }
-    
-    missing_keys = []
-    for env_key, service in required_keys.items():
-        if env_key not in os.environ:
-            missing_keys.append(f"{service} ({env_key})")
-    
-    if missing_keys:
-        print("Warning: The following API keys are missing:")
-        for key in missing_keys:
-            print(f"- {key}")
-        print("Some features may not work without these keys.\n")
+import random
+from workflows.basic import create_workflow
 
 def main():
-    parser = argparse.ArgumentParser(description='AI Workflow Executor')
-    parser.add_argument('--list', action='store_true', help='List available workflows')
-    parser.add_argument('--workflow', type=str, help='Name of the workflow to execute')
-    parser.add_argument('--input', type=str, help='Input text for the workflow')
-    parser.add_argument('--input-file', type=str, help='Path to input file')
-    
-    args = parser.parse_args()
-    
-    # Setup environment
-    setup_environment()
-    
-    # Initialize workflow executor
-    executor = WorkflowExecutor()
-    
-    # List available workflows
-    if args.list:
-        print("\nAvailable workflows:")
-        for workflow in executor.list_workflows():
-            description = executor.get_workflow_description(workflow)
-            print(f"\n- {workflow}")
-            print(f"  Description: {description}")
-        return
+    # List of potential scenarios to generate a query that might need tool processing
+    scenarios = [
+        {
+            "context": "As an AI intern at a data analytics firm, I'm working on a project about tech industry trends.",
+            "query": "I've collected raw interview notes from tech professionals about AI's impact. Can you help me organize and structure these notes for our research report? The notes are quite unstructured and need careful formatting."
+        },
+        {
+            "context": "I'm an intern at a machine learning startup, helping to curate training datasets.",
+            "query": "We've gathered a large collection of unformatted text snippets from various sources. I need to prepare these for our NLP model training. The text needs careful preprocessing and standardization."
+        },
+        {
+            "context": "Working as an AI research intern at a knowledge management firm.",
+            "query": "I've collected interview transcripts about emerging technologies. Our team needs these converted into a clean, readable format for our quarterly report. The current notes are quite messy."
+        }
+    ]
 
-    # Execute workflow
-    if args.workflow:
-        # Get input from file or command line
-        if args.input_file:
-            try:
-                with open(args.input_file, 'r') as f:
-                    input_text = f.read()
-            except Exception as e:
-                print(f"Error reading input file: {str(e)}")
-                return
-        elif args.input:
-            input_text = args.input
-        else:
-            print("Error: Please provide input text using --input or --input-file")
-            return
+    # Randomly select a scenario
+    selected_scenario = random.choice(scenarios)
 
-        try:
-            print(f"\nExecuting workflow: {args.workflow}")
-            print("Input:", input_text[:100] + "..." if len(input_text) > 100 else input_text)
-            print("\nProcessing...\n")
-            
-            result = executor.execute(args.workflow, input_text)
-            
-            print("\nResult:")
-            print(result)
-            
-        except Exception as e:
-            print(f"Error executing workflow: {str(e)}")
-            return
-    else:
-        parser.print_help()
+    # Create workflow with the selected scenario
+    workflow = create_workflow(
+        input_text=f"{selected_scenario['context']}\n\n{selected_scenario['query']}",
+        llm='openai'
+    )
+
+    # Run workflow
+    result = workflow.run()
+
+    # Print scenario and result
+    print("Scenario Context:")
+    print(selected_scenario['context'])
+    print("\nOriginal Query:")
+    print(selected_scenario['query'])
+    print("\nWorkflow Result:")
+    print(result)
 
 if __name__ == "__main__":
-    main() 
+    main()

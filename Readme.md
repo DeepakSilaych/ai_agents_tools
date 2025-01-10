@@ -1,209 +1,129 @@
-### **1. Architecture Overview**
-The platform will use a configuration-driven architecture. The flow of agents will be:
-1. **Input**: Accept input data (text, image, etc.) from the user.
-2. **Model Selection**: Choose an AI model (e.g., OpenAI GPT, Stable Diffusion, etc.) based on the configuration.
-3. **Workflow Execution**: Execute the workflow composed of tools in sequence.
-4. **Output**: Generate the desired output based on the workflow.
+# Project Overview
 
-**Key Components**:
-- **Configuration Management**: Stores workflows, tools, and model details.
-- **Workflow Orchestrator**: Executes the workflow by chaining tools together.
-- **Tool Manager**: Manages available tools and their interfaces.
-- **Model Manager**: Loads and manages AI models.
-- **Execution Engine**: Handles the actual execution of workflows.
-- **Output Processor**: Formats the output for the frontend.
-
----
-
-### **2. File Structure**
-Below is the proposed file structure for the base architecture:
+this project is a ai agent graph
 
 ```
-no_code_ai_platform/
-├── src/
-│   ├── config/
-│   │   ├── tools/
-│   │   │   ├── tool_1.yaml
-│   │   │   ├── tool_2.yaml
-│   │   │   └── ...
-│   │   ├── workflows/
-│   │   │   ├── workflow_1.yaml
-│   │   │   ├── workflow_2.yaml
-│   │   │   └── ...
-│   │   ├── models.yaml
-│   │   └── global_settings.yaml
-│   ├── core/
-│   │   ├── workflow_orchestrator.py
-│   │   ├── tool_manager.py
-│   │   ├── model_manager.py
-│   │   ├── execution_engine.py
-│   │   ├── input_handler.py
-│   │   └── output_processor.py
-│   ├── tools/
-│   │   ├── tool_1.py
-│   │   ├── tool_2.py
-│   │   └── ...
-│   ├── models/
-│   │   ├── openai_model.py
-│   │   ├── stable_diffusion_model.py
-│   │   └── ...
-│   ├── workflows/
-│   │   ├── workflow_executor.py
-│   │   └── predefined_workflows.py
-│   ├── tests/
-│   │   ├── test_workflow_orchestrator.py
-│   │   ├── test_tool_manager.py
-│   │   ├── test_model_manager.py
-│   │   ├── test_execution_engine.py
-│   │   └── ...
-│   └── utils/
-│       ├── logger.py
-│       ├── error_handler.py
-│       └── validator.py
-└── README.md
+  nodes/           # Directory for defining tools and their configurations
+  data/            # Directory for storing raw data files
+  edges/           # Directory for managing interactions and connections between agents
+  env/             # Directory for environment-specific configurations (e.g., .env files)
+  .git             # Git version control folder
+  .gitignore       # Specifies files and directories ignored by Git
+  llm/             # Directory containing configurations and utilities for working with large language models
+  logs/            # Directory for storing log files
+  main.py          # Entry point for running the application
+  Readme.md        # Documentation of the project
+  requirements.txt # Dependencies and libraries required for the project
+  settings.py      # Application-level settings and configurations
+  state.py         # Handles the application's state management
+  utils.py         # Helper functions and utilities
+  vectorstore.py   # Implements vector storage and retrieval for the application
+  workflows/       # Directory for defining and managing workflows
 ```
 
----
+## File/Folder Details
 
-### **3. Explanation of Each Component**
-#### **Configuration (`src/config/`)**
-- **`tools/`**: Contains YAML files defining tool configurations (e.g., inputs, outputs, parameters, dependencies).  
-  Example `tool_1.yaml`:
-  ```yaml
-  name: Summarizer
-  description: Summarizes text input.
-  input_type: text
-  output_type: text
-  parameters:
-    - name: max_length
-      type: int
-      default: 150
-  ```
-- **`workflows/`**: YAML files define workflows, specifying the sequence of tools.
-  Example `workflow_1.yaml`:
-  ```yaml
-  name: Text Analysis Workflow
-  tools:
-    - name: Summarizer
-      params:
-        max_length: 200
-    - name: Sentiment Analyzer
-  ```
-- **`models.yaml`**: Lists supported AI models and their configurations.
-  ```yaml
-  models:
-    - name: OpenAI GPT
-      type: LLM
-      provider: OpenAI
-    - name: Stable Diffusion
-      type: Image Generation
-      provider: StabilityAI
-  ```
-- **`global_settings.yaml`**: Contains global settings like timeout, logging levels, etc.
+### nodes/
 
----
+This folder contains all tools and nodes.
 
-#### **Core Modules (`src/core/`)**
-1. **`workflow_orchestrator.py`**
-   - Parses workflow configuration and orchestrates execution.
-   - Responsible for chaining tools based on the sequence defined in workflows.
-   - Uses LangChain for chaining tools seamlessly.
+### data/
 
-   Example:
-   ```python
-   class WorkflowOrchestrator:
-       def __init__(self, workflow_config):
-           self.workflow_config = workflow_config
+Used to store raw data files or processed datasets required by the application or agents.
 
-       def execute_workflow(self, input_data):
-           for tool in self.workflow_config["tools"]:
-               tool_instance = ToolManager.load_tool(tool["name"], tool["params"])
-               input_data = tool_instance.run(input_data)
-           return input_data
+### edges/
+
+This folder manages interactions between agents, allowing for modular connections and defining agent-to-agent communication logic.
+
+### env/
+
+Contains environment-specific configuration files, such as `.env` files, that define sensitive information like API keys or database URLs.
+
+### .git
+
+Git directory for version control.
+
+### .gitignore
+
+Lists files and directories to be ignored by Git, such as logs, environment files, and build artifacts.
+
+### llm/
+
+Houses configurations, prompt templates, and utilities related to large language models (LLMs). This includes code for LLM initialization and prompt engineering.
+
+### logs/
+
+Stores application logs, including error logs, debug logs, and execution traces.
+
+### main.py
+
+The main entry point of the application. This script initializes the app, sets up workflows, and runs the primary logic.
+
+### Readme.md
+
+This documentation file provides an overview of the project, its structure, and usage instructions.
+
+### requirements.txt
+
+Lists all Python dependencies required for the project, including libraries like `langchain`, `openai`, and `numpy`. Install these using:
+
+```bash
+pip install -r requirements.txt
+```
+
+### settings.py
+
+Contains application-wide configurations, including constants and environment-specific settings such as:
+
+- API keys
+- Vector store configurations
+- Workflow parameters
+
+### state.py
+
+Manages and persists application state, such as:
+
+- Agent states
+- Workflow progress
+- Vector store references
+
+### utils.py
+
+Includes helper functions and utilities that support the main functionality, such as:
+
+- Data preprocessing
+- Common utility methods for workflows and agents
+
+### vectorstore.py
+
+Implements the logic for setting up and querying vector stores, used for similarity searches and LLM-powered context retrieval.
+
+### workflows/
+
+Defines workflows as modular components. Each workflow is represented as a YAML/JSON file or Python script. These workflows specify sequences of actions and tool invocations.
+
+## How to Run the Application
+
+1. **Install Dependencies**:
+
+   ```bash
+   pip install -r requirements.txt
    ```
 
-2. **`tool_manager.py`**
-   - Manages the tools. Loads tool definitions from `config/tools/` and initializes them.
-   - Tools are wrappers around LangChain tools.
+2. **Set Up Environment**:
+   Place your `.env` file in the `env/` directory with required keys like API keys.
 
-3. **`model_manager.py`**
-   - Manages AI model instances. Loads models based on `models.yaml`.
-   - Provides an interface to query models.
+3. **Run the Application**:
 
-4. **`execution_engine.py`**
-   - Handles actual execution of workflows.
-   - Integrates inputs, models, and tools to produce output.
+   ```bash
+   python main.py
+   ```
 
-5. **`input_handler.py`**
-   - Prepares input data before feeding it into workflows.
+## Logs and Debugging
 
-6. **`output_processor.py`**
-   - Formats and processes output to match frontend requirements.
+- Logs are stored in the `logs/` folder. Check the logs for error messages or debugging information.
 
----
+## Contribution
 
-#### **Tools (`src/tools/`)**
-- Contains implementations of individual tools. Each tool is a class with `run` and `configure` methods.
-- Tools use LangChain's chainable utilities.
-
-Example `tool_1.py`:
-```python
-from langchain.tools import Tool
-
-class SummarizerTool:
-    def __init__(self, max_length=150):
-        self.max_length = max_length
-
-    def run(self, input_text):
-        return Tool("summarize").run(input_text, max_length=self.max_length)
-```
-
----
-
-#### **Models (`src/models/`)**
-- Contains wrappers around AI models, enabling their usage within the platform.
-
-Example `openai_model.py`:
-```python
-from langchain.llms import OpenAI
-
-class OpenAIModel:
-    def __init__(self, model_name="gpt-3.5-turbo"):
-        self.model = OpenAI(model_name=model_name)
-
-    def query(self, prompt):
-        return self.model(prompt)
-```
-
----
-
-#### **Workflows (`src/workflows/`)**
-- **`workflow_executor.py`**: Main script to execute predefined workflows.
-- **`predefined_workflows.py`**: Contains pre-built workflows for testing purposes.
-
----
-
-#### **Utilities (`src/utils/`)**
-- **`logger.py`**: Logging utility for debugging and tracking execution.
-- **`error_handler.py`**: Handles errors and exceptions.
-- **`validator.py`**: Validates tool, workflow, and model configurations.
-
----
-
-#### **Tests (`src/tests/`)**
-- Unit tests for all core modules, tools, and workflows.
-
----
-
-### **4. Working of Architecture**
-1. **Loading Configuration**:
-   - At startup, configurations for tools, workflows, and models are loaded into memory.
-2. **Workflow Orchestration**:
-   - The `WorkflowOrchestrator` reads the workflow configuration and calls tools in sequence.
-3. **Tool Execution**:
-   - Each tool processes the input data and passes the output to the next tool in the sequence.
-4. **Model Integration**:
-   - The `ModelManager` provides the required AI model for specific tools.
-5. **Output Formatting**:
-   - The `OutputProcessor` formats the output and sends it back to the frontend/API layer.
+Feel free to contribute by opening issues or submitting pull requests. Ensure you follow the structure and guidelines provided in this documentation.
 
