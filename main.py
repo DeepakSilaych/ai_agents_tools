@@ -24,7 +24,7 @@ def main():
     # Create workflow with the selected scenario
     workflow = create_workflow(
         input_text=f"{selected_scenario['context']}\n\n{selected_scenario['query']}",
-        llm='openai'
+        llm='gemini'
     )
 
     # Run workflow
