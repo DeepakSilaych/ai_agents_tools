@@ -3,6 +3,7 @@ Initialize and manage available tools for the workflow.
 """
 from .text_to_markdown_tool import TextToMarkdownTool
 from .web_search import WebSearchTool
+from .python_executor import PythonExecutorTool
 
 AVAILABLE_TOOLS = [
     {
@@ -14,6 +15,11 @@ AVAILABLE_TOOLS = [
         'id': 'web_search',
         'tool': WebSearchTool,
         'description': 'Search the web for information'
+    },
+    {
+        'id': 'python_executor',
+        'tool': PythonExecutorTool,
+        'description': 'Execute Python code in a sandboxed environment'
     }
 ]
 

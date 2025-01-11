@@ -8,7 +8,9 @@ from langchain_core.tools import BaseTool
 from langchain_community.tools.tavily_search import TavilySearchResults
 from langchain_community.tools import DuckDuckGoSearchRun
 
-from settings import WEB_SEARCH_PROVIDER
+# from settings import WEB_SEARCH_PROVIDER
+
+WEB_SEARCH_PROVIDER = 'duckduckgo'
 
 class WebSearchInput(BaseModel):
     query: str = Field(description="The search query")

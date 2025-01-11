@@ -11,3 +11,9 @@ duckduckgo-search
 pytest
 pytest-cov
 pytest-mock
+
+# E2B dependencies
+e2b
+matplotlib
+pandas
+numpy
