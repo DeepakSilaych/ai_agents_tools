@@ -1,3 +1,6 @@
+"""
+Generic workflow for processing text with available tools.
+"""
 from typing import List, Any, Optional
 from langchain_core.tools import BaseTool
 from langchain_core.prompts import ChatPromptTemplate
@@ -12,15 +15,6 @@ class GenericWorkflow:
         input_text: str, 
         llm: str
     ):
-        """
-        Initialize a generic workflow
-        
-        Args:
-            input_text (str): Input text to process
-            tools (List[BaseTool], optional): List of tools to potentially use
-            use_markdown (bool, optional): Whether to convert output to markdown
-        """
-
         self.llm = get_llm(llm)
         
         self.input_text = input_text
@@ -43,12 +37,6 @@ class GenericWorkflow:
         )
     
     def run(self) -> str:
-        """
-        Execute the workflow
-        
-        Returns:
-            str: Processed output
-        """
         workflow = (
             RunnablePassthrough.assign(
                 llm_output=self.prompt | self.llm
@@ -75,15 +63,4 @@ def create_workflow(
     input_text: str, 
     llm: str = 'openai',
 ):
-    """
-    Create and return a workflow instance
-    
-    Args:
-        input_text (str): Input text to process
-        tools (List[BaseTool], optional): List of tools to potentially use
-        use_markdown (bool, optional): Whether to convert output to markdown
-    
-    Returns:
-        GenericWorkflow: Workflow instance
-    """
     return GenericWorkflow(input_text, llm)
