@@ -10,7 +10,7 @@ from langchain_community.tools import DuckDuckGoSearchRun
 
 # from settings import WEB_SEARCH_PROVIDER
 
-WEB_SEARCH_PROVIDER = 'duckduckgo'
+WEB_SEARCH_PROVIDER = 'tavily'
 
 class WebSearchInput(BaseModel):
     query: str = Field(description="The search query")
@@ -27,8 +27,9 @@ class WebSearchTool(BaseTool):
         super().__init__()
         
         if os.getenv('TAVILY_API_KEY'):
+            
             self.tavily_api_wrapper = TavilySearchResults(
-                max_results=5,
+                max_results=1,
                 search_depth="advanced",
                 include_answer=True,
                 include_raw_content=True
