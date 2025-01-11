@@ -17,3 +17,13 @@ e2b
 matplotlib
 pandas
 numpy
+
+# Add these lines to existing requirements.txt
+openpyxl
+unstructured
+python-docx
+python-pptx
+beautifulsoup4
+markdown
+pypdf
+lxml

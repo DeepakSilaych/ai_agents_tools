@@ -4,6 +4,7 @@ Initialize and manage available tools for the workflow.
 from .text_to_markdown_tool import TextToMarkdownTool
 from .web_search import WebSearchTool
 from .python_executor import PythonExecutorTool
+from .file_loader_tool import FileLoaderTool
 
 AVAILABLE_TOOLS = [
     {
@@ -20,6 +21,11 @@ AVAILABLE_TOOLS = [
         'id': 'python_executor',
         'tool': PythonExecutorTool,
         'description': 'Execute Python code in a sandboxed environment'
+    },
+    {
+        'id': 'file_loader',
+        'tool': FileLoaderTool,
+        'description': 'Load and process CSV and Excel files'
     }
 ]
 
