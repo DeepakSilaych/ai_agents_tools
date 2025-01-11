@@ -4,5 +4,10 @@ openai
 python-dotenv
 pydantic
 langchain-openai
-google-generativeai
-langchain-google-genai
+tavily-python
+duckduckgo-search
+
+# Testing dependencies
+pytest
+pytest-cov
+pytest-mock

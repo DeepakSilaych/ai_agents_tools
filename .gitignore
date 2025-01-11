@@ -1,40 +1,71 @@
-# Python
+# Python bytecode and cache
 __pycache__/
+*/__pycache__/
 *.py[cod]
 *$py.class
-*.so
 
 # Distribution / packaging
 dist/
 build/
 *.egg-info/
+*.egg
 
 # Virtual environments
 venv/
 env/
 .env/
 .venv/
+ENV/
 
-# Environment variables
-.env
-.env.local
-.env.*.local
-
-# IDE - VSCode
+# IDE-specific files
 .vscode/
-*.code-workspace
-
-# IDE - PyCharm
 .idea/
-
-# Testing
-.pytest_cache/
-.coverage
-htmlcov/
+*.sublime-project
+*.sublime-workspace
 
 # Jupyter Notebook
 .ipynb_checkpoints
 
-# Local development
+# Logs and databases
 *.log
+*.sqlite3
+
+# OS generated files
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Specific project files
+.coverage
+htmlcov/
+.pytest_cache/
+
+# Sensitive information (double-check before committing)
+.env
+*.key
+secrets.json
+
+# Specific workflow and tool files
+workflows/*/cache/
+nodes/*/cache/
+
+# Temporary files
+*.swp
+*.swo
+*~
+
+# Specific to this project
+logs/
+data/
+state.json
+
+# Dependency directories
+node_modules/
+
+# Specific tool and workflow artifacts
+*.workflow
+*.tool
